@@ -1,0 +1,38 @@
+name: Actualizar Calendario Mundial 2026
+
+on:
+  schedule:
+    # Corre cada 6 horas
+    - cron: "0 */6 * * *"
+  # También se puede correr manualmente desde la web de GitHub
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Ejecutar script de actualización
+        run: python update_calendar.py
+
+      - name: Verificar si hubo cambios
+        id: check_changes
+        run: |
+          git diff --quiet mundial2026.ics bracket.json || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit y push si hay cambios
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add mundial2026.ics bracket.json
+          git commit -m "🤖 Auto-update: resultados al $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
