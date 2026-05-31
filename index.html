@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚽ Mundial 2026 – Calendario</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0a1a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: #13132a;
+      border: 1px solid #2a2a50;
+      border-radius: 24px;
+      padding: 48px 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+
+    .ball { font-size: 64px; margin-bottom: 16px; display: block; }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #8888aa;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #1a3a1a;
+      color: #4ade80;
+      border: 1px solid #2a6a2a;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 36px;
+      letter-spacing: 0.3px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #2a2a50;
+      margin: 28px 0;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #555577;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 18px 24px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+      margin-bottom: 12px;
+    }
+
+    .btn:hover { transform: translateY(-2px); opacity: 0.92; }
+    .btn:active { transform: translateY(0); }
+
+    .btn-google {
+      background: #4285F4;
+      color: #fff;
+    }
+
+    .btn-apple {
+      background: #1c1c1e;
+      color: #fff;
+      border: 1px solid #3a3a3a;
+    }
+
+    .btn-outlook {
+      background: #0078d4;
+      color: #fff;
+    }
+
+    .btn-icon { font-size: 22px; flex-shrink: 0; }
+
+    .btn-text { text-align: left; }
+    .btn-text span { display: block; font-size: 12px; font-weight: 400; opacity: 0.75; margin-top: 1px; }
+
+    .info-box {
+      background: #0d1d2e;
+      border: 1px solid #1a3a5c;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 28px;
+      text-align: left;
+    }
+
+    .info-box p {
+      font-size: 13px;
+      color: #8888aa;
+      line-height: 1.6;
+    }
+
+    .info-box strong { color: #aaaacc; }
+
+    .flags {
+      font-size: 22px;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .update-note {
+      font-size: 12px;
+      color: #4ade80;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="ball">⚽</span>
+    <h1>Mundial 2026</h1>
+    <p class="subtitle">104 partidos · Horario Argentina · Se actualiza solo</p>
+    <span class="flags">🇦🇷 🇧🇷 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱 🇺🇾</span>
+    <span class="badge">🔄 Actualización automática cada 6hs</span>
+
+    <p class="section-label">Elegí tu calendario</p>
+
+    <!-- Google Calendar -->
+    <a class="btn btn-google"
+       href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Fraw.githubusercontent.com%2Fferminmartel%2FMundial2026%2Fmain%2Fmundial2026.ics"
+       target="_blank">
+      <span class="btn-icon">
+        <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
+          <rect width="48" height="48" rx="8" fill="white"/>
+          <path d="M34 14H14C11.8 14 10 15.8 10 18V34C10 36.2 11.8 38 14 38H34C36.2 38 38 36.2 38 34V18C38 15.8 36.2 14 34 14Z" fill="#4285F4"/>
+          <rect x="10" y="18" width="28" height="6" fill="#1565C0"/>
+          <rect x="16" y="10" width="3" height="8" rx="1.5" fill="#1565C0"/>
+          <rect x="29" y="10" width="3" height="8" rx="1.5" fill="#1565C0"/>
+          <rect x="14" y="27" width="5" height="5" rx="1" fill="white"/>
+          <rect x="21.5" y="27" width="5" height="5" rx="1" fill="white"/>
+          <rect x="29" y="27" width="5" height="5" rx="1" fill="white"/>
+        </svg>
+      </span>
+      <span class="btn-text">
+        Agregar a Google Calendar
+        <span>Se abre en el navegador</span>
+      </span>
+    </a>
+
+    <!-- iPhone / Apple Calendar -->
+    <a class="btn btn-apple"
+       href="webcal://raw.githubusercontent.com/ferminmartel/Mundial2026/main/mundial2026.ics">
+      <span class="btn-icon">🍎</span>
+      <span class="btn-text">
+        Agregar a iPhone / Apple Calendar
+        <span>Abrí este link desde Safari en tu iPhone</span>
+      </span>
+    </a>
+
+    <!-- Outlook -->
+    <a class="btn btn-outlook"
+       href="https://outlook.live.com/calendar/0/addfromweb?url=webcal%3A%2F%2Fraw.githubusercontent.com%2Fferminmartel%2FMundial2026%2Fmain%2Fmundial2026.ics"
+       target="_blank">
+      <span class="btn-icon">📅</span>
+      <span class="btn-text">
+        Agregar a Outlook
+        <span>Outlook.com / Microsoft 365</span>
+      </span>
+    </a>
+
+    <hr class="divider">
+
+    <div class="info-box">
+      <p>
+        <strong>¿Qué incluye?</strong><br>
+        Todos los partidos del Mundial 2026 en <strong>horario Argentina (ART)</strong>,
+        con estadio, ciudad, hora local e instancia del torneo.<br><br>
+        <strong>Canales de TV:</strong> TyC Sports · TV Pública · Telefe · DirecTV Sports<br><br>
+        El calendario se actualiza automáticamente a medida que avanzan los equipos.
+        Los partidos de la Ronda de 32, Octavos, Cuartos, Semis y Final
+        se completan con los nombres reales de los clasificados.
+      </p>
+    </div>
+
+    <p class="update-note">🔄 Última actualización: automática vía GitHub Actions</p>
+  </div>
+</body>
+</html>
