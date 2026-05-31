@@ -165,7 +165,8 @@ def tv_channels(t1, t2, stage):
     if any(x in (t1+t2) for x in big): return "📺 TyC Sports · DirecTV Sports"
     return "📺 DirecTV Sports"
 
-def make_group_event(row):
+def make_group_event(row, bracket=None):
+    if bracket is None: bracket = {}
     uid, date, time_et, c1, c2, venue, city, tz, stage, grp = row
     utc = parse_et(date, time_et)
     art = utc - timedelta(hours=3)
@@ -173,10 +174,24 @@ def make_group_event(row):
     n1, n2 = full_name(c1), full_name(c2)
     f1, f2 = flag(c1), flag(c2)
 
-    summary = f"{c1} vs {c2} | Grupo {grp}"
-    desc = "\\n".join([
-        f"{f1} {n1}  vs  {f2} {n2}",
-        "",
+    # Buscar resultado si ya se jugó
+    result_str = bracket.get(f"result_{c1}_{c2}") or bracket.get(f"result_{c2}_{c1}")
+    if result_str and bracket.get(f"result_{c2}_{c1}") and not bracket.get(f"result_{c1}_{c2}"):
+        parts = result_str.split("-")
+        result_str = f"{parts[1]}-{parts[0]}"
+
+    if result_str:
+        summary = f"{c1} {result_str} {c2} | Grupo {grp}"
+    else:
+        summary = f"{c1} vs {c2} | Grupo {grp}"
+
+    is_arg = "ARG" in (c1 + c2)
+    color = "#75AADB" if is_arg else None  # Celeste Argentina
+
+    desc_parts = [f"{f1} {n1}  vs  {f2} {n2}", ""]
+    if result_str:
+        desc_parts += [f"⚽ Resultado final: {c1} {result_str} {c2}", ""]
+    desc_parts += [
         f"🕐 Hora Argentina (ART): {fmt_t(art)}",
         f"🕐 Hora local ({city.split(',')[0]}): {fmt_t(local)}",
         "",
@@ -189,8 +204,9 @@ def make_group_event(row):
         "─────────────────────",
         "Copa del Mundo FIFA 2026",
         "EE.UU. · México · Canadá | 11 jun – 19 jul 2026",
-    ])
-    return _event(uid, utc, summary, desc, venue, city)
+    ]
+    desc = "\\n".join(desc_parts)
+    return _event(uid, utc, summary, desc, venue, city, color=color)
 
 def make_knockout_event(row, bracket):
     uid, date, time_et, bkey, venue, city, tz, stage, num = row
@@ -204,6 +220,9 @@ def make_knockout_event(row, bracket):
     n2 = full_name(t2) if t2 in TEAMS else t2
     f1 = flag(t1) if t1 in TEAMS else ""
     f2 = flag(t2) if t2 in TEAMS else ""
+
+    is_arg = "ARG" in (t1 + t2)
+    color = "#75AADB" if is_arg else None  # Celeste Argentina
 
     summary = f"{t1} vs {t2} | {stage} P{num}"
     desc = "\\n".join([
@@ -222,10 +241,10 @@ def make_knockout_event(row, bracket):
         "Copa del Mundo FIFA 2026",
         "EE.UU. · México · Canadá | 11 jun – 19 jul 2026",
     ])
-    return _event(uid, utc, summary, desc, venue, city)
+    return _event(uid, utc, summary, desc, venue, city, color=color)
 
-def _event(uid, utc, summary, desc, venue, city):
-    return "\r\n".join([
+def _event(uid, utc, summary, desc, venue, city, color=None):
+    lines = [
         "BEGIN:VEVENT",
         f"UID:{uid}@mundial2026.ferminmartel",
         f"DTSTART:{fmt_ics(utc)}",
@@ -233,8 +252,12 @@ def _event(uid, utc, summary, desc, venue, city):
         f"SUMMARY:{summary}",
         f"DESCRIPTION:{desc}",
         f"LOCATION:{venue}\\, {city}",
-        "END:VEVENT",
-    ])
+    ]
+    if color:
+        lines.append(f"COLOR:{color}")
+        lines.append(f"X-APPLE-CALENDAR-COLOR:{color}")
+    lines.append("END:VEVENT")
+    return "\r\n".join(lines)
 
 def generate(bracket=None, output="mundial2026.ics"):
     if bracket is None:
@@ -250,7 +273,7 @@ def generate(bracket=None, output="mundial2026.ics"):
         "X-WR-CALDESC:FIFA World Cup 2026 - Horario Argentina. Se actualiza automaticamente.",
     ]
     for row in GROUP_MATCHES:
-        lines.append(make_group_event(row))
+        lines.append(make_group_event(row, bracket))
     for row in KNOCKOUT_MATCHES:
         lines.append(make_knockout_event(row, bracket))
     lines.append("END:VCALENDAR")

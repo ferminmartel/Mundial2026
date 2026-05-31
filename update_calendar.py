@@ -25,6 +25,7 @@ except ImportError:
 # ─────────────────────────────────────────────
 ESPN_STANDINGS = "https://site.api.espn.com/apis/v2/sports/soccer/FIFA.WORLD/standings?season=2026"
 ESPN_SCOREBOARD_TPL = "https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard?dates={date}"
+ESPN_GROUPS_DATES = "20260611-20260627"  # Fase de grupos completa
 
 # Mapeo nombre ESPN → código de 3 letras
 ESPN_NAME_MAP = {
@@ -114,6 +115,43 @@ def fetch_group_standings():
         print(f"  ⚠️  Error parseando standings: {e}")
 
     return groups
+
+
+def fetch_group_results():
+    """
+    Retorna dict con resultados de fase de grupos:
+    { ("MEX","RSA"): (1, 2), ... }  → (goles_equipo1, goles_equipo2)
+    Solo partidos ya finalizados.
+    """
+    print("📡 Fetching resultados de fase de grupos...")
+    results = {}
+    url = ESPN_SCOREBOARD_TPL.format(date=ESPN_GROUPS_DATES)
+    data = fetch_json(url)
+    if not data:
+        return results
+    for event in data.get("events", []):
+        try:
+            comp = event["competitions"][0]
+            status = comp["status"]["type"]["name"]
+            if status != "STATUS_FINAL":
+                continue
+            competitors = comp["competitors"]
+            h = competitors[0]
+            a = competitors[1]
+            h_code = to_code(h["team"]["displayName"])
+            a_code = to_code(a["team"]["displayName"])
+            h_score = int(h.get("score", 0))
+            a_score = int(a.get("score", 0))
+            key = tuple(sorted([h_code, a_code]))
+            # Guardamos en orden: primer equipo del key → su score
+            if key[0] == h_code:
+                results[key] = (h_score, a_score)
+            else:
+                results[key] = (a_score, h_score)
+            print(f"  {h_code} {h_score}-{a_score} {a_code}")
+        except Exception:
+            continue
+    return results
 
 
 def fetch_knockout_results():
@@ -280,8 +318,9 @@ def main():
     # Fetch data
     groups = fetch_group_standings()
     knockout_results = fetch_knockout_results()
+    group_results = fetch_group_results()
 
-    if not groups and not knockout_results:
+    if not groups and not knockout_results and not group_results:
         print("\n⚠️  No se obtuvo data nueva. Regenerando ICS con bracket existente.")
         bracket = existing
     else:
@@ -290,6 +329,11 @@ def main():
         for k, v in existing.items():
             if k not in bracket:
                 bracket[k] = v
+
+    # Guardar resultados de fase de grupos en bracket.json
+    # Formato: "result_MEX_RSA": "1-2"
+    for (c1, c2), (s1, s2) in group_results.items():
+        bracket[f"result_{c1}_{c2}"] = f"{s1}-{s2}"
 
     # Guardar bracket.json
     with open("bracket.json", "w") as f:
