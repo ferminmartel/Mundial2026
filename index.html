@@ -6,7 +6,6 @@
   <title>⚽ Mundial 2026 – Calendario</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #0a0a1a;
@@ -17,205 +16,201 @@
       justify-content: center;
       padding: 24px;
     }
-
     .card {
       background: #13132a;
       border: 1px solid #2a2a50;
       border-radius: 24px;
-      padding: 48px 36px;
+      padding: 40px 32px;
       max-width: 480px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
     }
-
-    .ball { font-size: 64px; margin-bottom: 16px; display: block; }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: #8888aa;
-      font-size: 15px;
-      margin-bottom: 12px;
-    }
-
+    .ball { font-size: 56px; margin-bottom: 12px; display: block; }
+    h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+    .subtitle { color: #8888aa; font-size: 14px; margin-bottom: 12px; }
+    .flags { font-size: 20px; letter-spacing: 2px; margin-bottom: 14px; display: block; }
     .badge {
       display: inline-block;
-      background: #1a3a1a;
-      color: #4ade80;
+      background: #1a3a1a; color: #4ade80;
       border: 1px solid #2a6a2a;
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 36px;
-      letter-spacing: 0.3px;
+      border-radius: 20px; padding: 4px 14px;
+      font-size: 12px; font-weight: 600; margin-bottom: 28px;
     }
-
-    .divider {
-      border: none;
-      border-top: 1px solid #2a2a50;
-      margin: 28px 0;
-    }
-
     .section-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #555577;
-      margin-bottom: 16px;
-      font-weight: 600;
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 1.5px; color: #555577;
+      margin-bottom: 14px; font-weight: 600;
     }
-
     .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
-      padding: 18px 24px;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 700;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; width: 100%; padding: 16px 20px;
+      border-radius: 14px; font-size: 15px; font-weight: 700;
+      text-decoration: none; border: none; cursor: pointer;
       transition: transform 0.15s, opacity 0.15s;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-
     .btn:hover { transform: translateY(-2px); opacity: 0.92; }
     .btn:active { transform: translateY(0); }
-
-    .btn-google {
-      background: #4285F4;
-      color: #fff;
-    }
-
-    .btn-apple {
-      background: #1c1c1e;
-      color: #fff;
-      border: 1px solid #3a3a3a;
-    }
-
-    .btn-outlook {
-      background: #0078d4;
-      color: #fff;
-    }
-
-    .btn-icon { font-size: 22px; flex-shrink: 0; }
-
+    .btn-google { background: #4285F4; color: #fff; }
+    .btn-apple { background: #1c1c1e; color: #fff; border: 1px solid #3a3a3a; }
+    .btn-outlook { background: #0078d4; color: #fff; }
+    .btn-copy { background: #2a2a4a; color: #aaaaee; border: 1px solid #3a3a6a; }
+    .btn-icon { font-size: 20px; flex-shrink: 0; }
     .btn-text { text-align: left; }
-    .btn-text span { display: block; font-size: 12px; font-weight: 400; opacity: 0.75; margin-top: 1px; }
-
+    .btn-text span { display: block; font-size: 12px; font-weight: 400; opacity: 0.8; margin-top: 2px; }
+    .divider { border: none; border-top: 1px solid #2a2a50; margin: 22px 0; }
+    .android-box {
+      background: #0d1220; border: 1px solid #1a2a40;
+      border-radius: 14px; padding: 18px 20px;
+      text-align: left; margin-bottom: 10px;
+    }
+    .android-title {
+      font-size: 13px; font-weight: 700; color: #aaccff;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .steps { list-style: none; counter-reset: steps; }
+    .steps li {
+      counter-increment: steps;
+      font-size: 13px; color: #8888aa; line-height: 1.6;
+      padding: 5px 0 5px 28px; position: relative;
+    }
+    .steps li::before {
+      content: counter(steps);
+      position: absolute; left: 0;
+      background: #1a2a50; color: #6688cc;
+      width: 20px; height: 20px; border-radius: 50%;
+      font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      top: 6px;
+    }
+    .steps li strong { color: #ccccee; }
     .info-box {
-      background: #0d1d2e;
-      border: 1px solid #1a3a5c;
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-top: 28px;
-      text-align: left;
+      background: #0d1d2e; border: 1px solid #1a3a5c;
+      border-radius: 12px; padding: 16px 20px;
+      text-align: left; margin-top: 6px;
     }
-
-    .info-box p {
-      font-size: 13px;
-      color: #8888aa;
-      line-height: 1.6;
-    }
-
+    .info-box p { font-size: 13px; color: #8888aa; line-height: 1.6; }
     .info-box strong { color: #aaaacc; }
-
-    .flags {
-      font-size: 22px;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    .update-note {
-      font-size: 12px;
-      color: #4ade80;
-      margin-top: 20px;
+    .footer { font-size: 12px; color: #4ade80; margin-top: 18px; }
+    .credit { font-size: 13px; color: #555577; margin-top: 10px; }
+    .credit strong { color: #7777aa; }
+    #copy-feedback { font-size: 12px; color: #4ade80; margin-top: 6px; min-height: 18px; }
+    .url-display {
+      background: #0a0a1a; border: 1px solid #2a2a50;
+      border-radius: 8px; padding: 8px 12px;
+      font-size: 11px; color: #6666aa; font-family: monospace;
+      word-break: break-all; margin-bottom: 10px; text-align: left;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <span class="ball">⚽</span>
-    <h1>Mundial 2026</h1>
-    <p class="subtitle">104 partidos · Horario Argentina · Se actualiza solo</p>
-    <span class="flags">🇦🇷 🇧🇷 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱 🇺🇾</span>
-    <span class="badge">🔄 Actualización automática cada 6hs</span>
+<div class="card">
+  <span class="ball">⚽</span>
+  <h1>Mundial 2026</h1>
+  <p class="subtitle">104 partidos · Horario Argentina · Se actualiza solo</p>
+  <span class="flags">🇦🇷 🇧🇷 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱 🇺🇾</span>
+  <span class="badge">🔄 Actualización automática cada 6hs</span>
 
-    <p class="section-label">Elegí tu calendario</p>
+  <p class="section-label">Elegí tu calendario</p>
 
-    <!-- Google Calendar -->
-    <a class="btn btn-google"
-       href="https://calendar.google.com/calendar/render?cid=https%3A%2F%2Fraw.githubusercontent.com%2Fferminmartel%2FMundial2026%2Fmain%2Fmundial2026.ics"
-       target="_blank">
-      <span class="btn-icon">
-        <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
-          <rect width="48" height="48" rx="8" fill="white"/>
-          <path d="M34 14H14C11.8 14 10 15.8 10 18V34C10 36.2 11.8 38 14 38H34C36.2 38 38 36.2 38 34V18C38 15.8 36.2 14 34 14Z" fill="#4285F4"/>
-          <rect x="10" y="18" width="28" height="6" fill="#1565C0"/>
-          <rect x="16" y="10" width="3" height="8" rx="1.5" fill="#1565C0"/>
-          <rect x="29" y="10" width="3" height="8" rx="1.5" fill="#1565C0"/>
-          <rect x="14" y="27" width="5" height="5" rx="1" fill="white"/>
-          <rect x="21.5" y="27" width="5" height="5" rx="1" fill="white"/>
-          <rect x="29" y="27" width="5" height="5" rx="1" fill="white"/>
-        </svg>
-      </span>
-      <span class="btn-text">
-        Agregar a Google Calendar
-        <span>Se abre en el navegador</span>
-      </span>
-    </a>
+  <!-- Google Calendar -->
+  <a class="btn btn-google"
+     href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Fraw.githubusercontent.com%2Fferminmartel%2FMundial2026%2Fmain%2Fmundial2026.ics"
+     target="_blank">
+    <span class="btn-icon">📅</span>
+    <span class="btn-text">
+      Agregar a Google Calendar
+      <span>Hacelo desde la PC — se sincroniza solo al celular</span>
+    </span>
+  </a>
 
-    <!-- iPhone / Apple Calendar -->
-    <a class="btn btn-apple"
-       href="webcal://raw.githubusercontent.com/ferminmartel/Mundial2026/main/mundial2026.ics">
-      <span class="btn-icon">🍎</span>
-      <span class="btn-text">
-        Agregar a iPhone / Apple Calendar
-        <span>Abrí este link desde Safari en tu iPhone</span>
-      </span>
-    </a>
-
-    <!-- Outlook -->
-    <a class="btn btn-outlook"
-       href="https://outlook.live.com/calendar/0/addfromweb?url=webcal%3A%2F%2Fraw.githubusercontent.com%2Fferminmartel%2FMundial2026%2Fmain%2Fmundial2026.ics"
-       target="_blank">
-      <span class="btn-icon">📅</span>
-      <span class="btn-text">
-        Agregar a Outlook
-        <span>Outlook.com / Microsoft 365</span>
-      </span>
-    </a>
-
-    <hr class="divider">
-
-    <div class="info-box">
-      <p>
-        <strong>¿Qué incluye?</strong><br>
-        Todos los partidos del Mundial 2026 en <strong>horario Argentina (ART)</strong>,
-        con estadio, ciudad, hora local e instancia del torneo.<br><br>
-        <strong>Canales de TV:</strong> TyC Sports · TV Pública · Telefe · DirecTV Sports<br><br>
-        El calendario se actualiza automáticamente a medida que avanzan los equipos.
-        Los partidos de la Ronda de 32, Octavos, Cuartos, Semis y Final
-        se completan con los nombres reales de los clasificados.
-      </p>
+  <!-- Android instructions -->
+  <div class="android-box">
+    <div class="android-title">🤖 ¿Estás en Android? Seguí estos pasos:</div>
+    <p style="font-size:12px;color:#6677aa;margin-bottom:10px">Opción 1 (recomendada): agregalo desde la PC y se sincroniza automáticamente a tu celular.</p>
+    <p style="font-size:12px;color:#6677aa;margin-bottom:12px;font-weight:600">Opción 2 — desde el celular:</p>
+    <ol class="steps">
+      <li>Copiá el enlace con el botón de abajo</li>
+      <li>Abrí <strong>Chrome</strong> → menú (⋮) → <strong>Sitio para computadora</strong></li>
+      <li>Andá a <strong>calendar.google.com</strong></li>
+      <li>En el panel izquierdo tocá <strong>+</strong> junto a "Otros calendarios"</li>
+      <li>Elegí <strong>"Desde URL"</strong>, pegá el enlace y presioná Agregar</li>
+      <li>Abrí la app Google Calendar → Configuración → activá el calendario</li>
+    </ol>
+    <div style="margin-top:14px">
+      <div class="url-display">webcal://raw.githubusercontent.com/ferminmartel/Mundial2026/main/mundial2026.ics</div>
+      <button class="btn btn-copy" onclick="copyLink()" style="margin-bottom:0">
+        <span class="btn-icon">📋</span>
+        <span class="btn-text">Copiar enlace del calendario</span>
+      </button>
+      <div id="copy-feedback"></div>
     </div>
+  </div>
 
-    <p class="update-note">🔄 Última actualización: automática vía GitHub Actions</p>
+  <!-- iPhone -->
+  <a class="btn btn-apple"
+     href="webcal://raw.githubusercontent.com/ferminmartel/Mundial2026/main/mundial2026.ics">
+    <span class="btn-icon">🍎</span>
+    <span class="btn-text">
+      Agregar a iPhone / Apple Calendar
+      <span>Abrí este link desde Safari en tu iPhone</span>
+    </span>
+  </a>
 
-    <p style="margin-top: 20px; font-size: 13px; color: #555577;">
-      Creado por <strong style="color: #aaaacc;">Fermín Martel</strong>
+  <!-- Outlook -->
+  <a class="btn btn-outlook"
+     href="https://outlook.live.com/calendar/0/addfromweb?url=webcal%3A%2F%2Fraw.githubusercontent.com%2Fferminmartel%2FMundial2026%2Fmain%2Fmundial2026.ics"
+     target="_blank">
+    <span class="btn-icon">🪟</span>
+    <span class="btn-text">
+      Agregar a Outlook
+      <span>Outlook.com / Microsoft 365</span>
+    </span>
+  </a>
+
+  <hr class="divider">
+
+  <div class="info-box">
+    <p>
+      <strong>¿Qué incluye?</strong><br>
+      Todos los partidos en <strong>horario Argentina (ART)</strong> con estadio, ciudad, hora local e instancia. Muestra el <strong>resultado final</strong> de los partidos ya jugados.<br><br>
+      <strong>TV Argentina:</strong> TyC Sports · TV Pública · Telefe · DirecTV Sports<br><br>
+      Los partidos eliminatorios se actualizan automáticamente con los equipos clasificados.
     </p>
   </div>
+
+  <p class="footer">🔄 Actualización automática vía GitHub Actions</p>
+  <p class="credit">Creado por <strong>Fermín Martel</strong></p>
+</div>
+
+<script>
+function copyLink() {
+  const url = "webcal://raw.githubusercontent.com/ferminmartel/Mundial2026/main/mundial2026.ics";
+  const fb = document.getElementById("copy-feedback");
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      fb.textContent = "✅ ¡Enlace copiado!";
+      setTimeout(() => fb.textContent = "", 3000);
+    }).catch(() => fallbackCopy(url));
+  } else {
+    fallbackCopy(url);
+  }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand("copy");
+    document.getElementById("copy-feedback").textContent = "✅ ¡Enlace copiado!";
+    setTimeout(() => document.getElementById("copy-feedback").textContent = "", 3000);
+  } catch(e) {
+    document.getElementById("copy-feedback").textContent = "Copialo manualmente de arriba ↑";
+  }
+  document.body.removeChild(ta);
+}
+</script>
 </body>
 </html>
