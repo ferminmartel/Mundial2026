@@ -114,15 +114,21 @@
   <p class="section-label">Elegí tu calendario</p>
 
   <!-- Google Calendar -->
-  <a class="btn btn-google"
-     href="https://calendar.google.com/calendar/r?cid=https%3A%2F%2Fraw.githubusercontent.com%2Fferminmartel%2FMundial2026%2Fmain%2Fmundial2026.ics"
-     target="_blank">
+  <button class="btn btn-google" onclick="addToGoogle()">
     <span class="btn-icon">📅</span>
     <span class="btn-text">
       Agregar a Google Calendar
-      <span>Hacelo desde la PC — se sincroniza solo al celular</span>
+      <span>Te copiamos el link y te llevamos a pegarlo — 2 clicks</span>
     </span>
-  </a>
+  </button>
+  <div id="google-steps" style="display:none;background:#0d1a2e;border:1px solid #1a3a5c;border-radius:12px;padding:14px 18px;margin-bottom:10px;text-align:left">
+    <p style="font-size:13px;color:#4ade80;font-weight:600;margin-bottom:8px">✅ Link copiado. Ahora:</p>
+    <ol class="steps">
+      <li>En la página que se abrió, buscá el campo <strong>"URL del calendario"</strong></li>
+      <li>Pegá el link (<strong>Ctrl+V</strong> en PC / mantener presionado en celular)</li>
+      <li>Hacé click en <strong>"Añadir calendario"</strong></li>
+    </ol>
+  </div>
 
   <!-- Android instructions -->
   <div class="android-box">
@@ -183,6 +189,33 @@
 </div>
 
 <script>
+const WEBCAL_URL = "webcal://raw.githubusercontent.com/ferminmartel/Mundial2026/main/mundial2026.ics";
+const GC_ADD_URL = "https://calendar.google.com/calendar/r/settings/addbyurl?url=" + encodeURIComponent(WEBCAL_URL);
+
+function addToGoogle() {
+  const steps = document.getElementById("google-steps");
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(WEBCAL_URL).then(() => {
+      steps.style.display = "block";
+      window.open(GC_ADD_URL, "_blank");
+    }).catch(() => {
+      fallbackCopyGeneric(WEBCAL_URL, steps);
+    });
+  } else {
+    fallbackCopyGeneric(WEBCAL_URL, steps);
+  }
+}
+
+function fallbackCopyGeneric(text, stepsEl) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); } catch(e) {}
+  document.body.removeChild(ta);
+  if (stepsEl) stepsEl.style.display = "block";
+  window.open(GC_ADD_URL, "_blank");
+}
+
 function copyLink() {
   const url = "webcal://raw.githubusercontent.com/ferminmartel/Mundial2026/main/mundial2026.ics";
   const fb = document.getElementById("copy-feedback");
