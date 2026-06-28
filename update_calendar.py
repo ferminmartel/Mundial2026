@@ -94,18 +94,20 @@ def fetch_group_standings():
 
     groups = {}
     try:
-        for group in data.get("standings", {}).get("groups", []):
+        # ESPN devuelve children[] (no standings.groups)
+        for group in data.get("children", []):
             grp_name = group.get("name", "").replace("Group ", "").strip()
             if not grp_name or len(grp_name) != 1:
                 continue
             teams = []
             for entry in group.get("standings", {}).get("entries", []):
-                team_name = entry.get("team", {}).get("displayName", "")
-                code = to_code(team_name)
+                # Preferir abbreviation directamente (más fiable que displayName→to_code)
+                team_abbr = entry.get("team", {}).get("abbreviation", "")
+                code = team_abbr if (team_abbr and len(team_abbr) <= 3) else to_code(entry.get("team", {}).get("displayName", ""))
                 stats = {s["name"]: s["value"] for s in entry.get("stats", [])}
                 pts = int(stats.get("points", 0))
                 gd = int(stats.get("pointDifferential", stats.get("goalDifference", 0)))
-                gf = int(stats.get("pointsFor", stats.get("goalsScored", 0)))
+                gf = int(stats.get("pointsFor", stats.get("goalsFor", stats.get("goalsScored", 0))))
                 teams.append((code, pts, gd, gf))
             # Ordenar: más puntos → mejor diferencia → más goles
             teams.sort(key=lambda x: (x[1], x[2], x[3]), reverse=True)
@@ -129,19 +131,21 @@ def fetch_group_results():
     data = fetch_json(url)
     if not data:
         return results
+    COMPLETED = ("STATUS_FINAL", "STATUS_FULL_TIME", "STATUS_FULL_PEN", "STATUS_FULL_ET")
     for event in data.get("events", []):
         try:
             comp = event["competitions"][0]
             status = comp["status"]["type"]["name"]
-            if status != "STATUS_FINAL":
+            if status not in COMPLETED:
                 continue
             competitors = comp["competitors"]
             h = competitors[0]
             a = competitors[1]
-            h_code = to_code(h["team"]["displayName"])
-            a_code = to_code(a["team"]["displayName"])
-            h_score = int(h.get("score", 0))
-            a_score = int(a.get("score", 0))
+            # Preferir abbreviation directamente
+            h_code = h["team"].get("abbreviation") or to_code(h["team"].get("displayName", ""))
+            a_code = a["team"].get("abbreviation") or to_code(a["team"].get("displayName", ""))
+            h_score = int(float(h.get("score", 0) or 0))
+            a_score = int(float(a.get("score", 0) or 0))
             key = tuple(sorted([h_code, a_code]))
             # Guardamos en orden: primer equipo del key → su score
             if key[0] == h_code:
@@ -175,6 +179,8 @@ def fetch_knockout_results():
         ("20260714", "20260719"),
     ]
 
+    COMPLETED = ("STATUS_FINAL", "STATUS_FULL_TIME", "STATUS_FULL_PEN", "STATUS_FULL_ET")
+
     for start, end in rounds:
         url = ESPN_SCOREBOARD_TPL.format(date=f"{start}-{end}")
         data = fetch_json(url)
@@ -184,35 +190,34 @@ def fetch_knockout_results():
             try:
                 comp = event["competitions"][0]
                 status = comp["status"]["type"]["name"]
-                if status != "STATUS_FINAL":
+                if status not in COMPLETED:
                     continue
                 competitors = comp["competitors"]
                 home = competitors[0]
                 away = competitors[1]
-                h_name = home["team"]["displayName"]
-                a_name = away["team"]["displayName"]
-                h_score = int(home.get("score", 0))
-                a_score = int(away.get("score", 0))
-                # Intentar extraer match number del nombre del evento
-                evt_name = event.get("name", "")
-                # No siempre es fácil mapear al número de partido...
-                # Guardamos por fecha y equipos
-                h_code = to_code(h_name)
-                a_code = to_code(a_name)
+                h_code = home["team"].get("abbreviation") or to_code(home["team"].get("displayName", ""))
+                a_code = away["team"].get("abbreviation") or to_code(away["team"].get("displayName", ""))
+                h_score = int(float(home.get("score", 0) or 0))
+                a_score = int(float(away.get("score", 0) or 0))
                 if h_score > a_score:
                     winner, loser = h_code, a_code
                 elif a_score > h_score:
                     winner, loser = a_code, h_code
                 else:
-                    winner, loser = None, None  # penales – ESPN marca ganador diferente
-                    # Buscar winner en penalties
+                    # Penales – ESPN marca winner=true en el ganador
+                    winner, loser = None, None
                     for c in competitors:
                         if c.get("winner"):
-                            winner = to_code(c["team"]["displayName"])
-                    loser = a_code if winner == h_code else h_code
+                            winner = c["team"].get("abbreviation") or to_code(c["team"].get("displayName", ""))
+                    if winner:
+                        loser = a_code if winner == h_code else h_code
+                    else:
+                        winner, loser = h_code, a_code
 
                 key = tuple(sorted([h_code, a_code]))
-                results[key] = (winner, loser)
+                # Guardamos también el marcador para mostrarlo en el ICS y la web
+                score_str = f"{h_score}-{a_score}" if status != "STATUS_FULL_PEN" else f"{h_score}-{a_score} (pen)"
+                results[key] = (winner, loser, score_str)
             except Exception:
                 continue
 
@@ -262,7 +267,8 @@ def resolve_bracket(groups, knockout_results):
     # Para cada partido desde 89 en adelante, buscamos al ganador
     # de los partidos que lo alimentan
     winner_of = {}  # match_num → winner_code
-    for (key, (winner, loser)) in knockout_results.items():
+    for (key, result_tuple) in knockout_results.items():
+        winner = result_tuple[0]
         # Buscar qué partido corresponde a estos equipos
         for n in range(73, 105):
             t1 = bracket.get(f"p{n}_t1", "")
@@ -290,7 +296,8 @@ def resolve_bracket(groups, knockout_results):
 
     # Tercer puesto: perdedores de semis
     loser_of = {}
-    for (key, (winner, loser)) in knockout_results.items():
+    for (key, result_tuple) in knockout_results.items():
+        loser = result_tuple[1]
         for n in range(73, 105):
             t1 = bracket.get(f"p{n}_t1", "")
             t2 = bracket.get(f"p{n}_t2", "")
@@ -334,6 +341,13 @@ def main():
     # Formato: "result_MEX_RSA": "1-2"
     for (c1, c2), (s1, s2) in group_results.items():
         bracket[f"result_{c1}_{c2}"] = f"{s1}-{s2}"
+
+    # Guardar resultados de fase eliminatoria (marcador)
+    # Formato: "result_ARG_FRA": "2-0"
+    for (c1, c2), result_tuple in knockout_results.items():
+        score_str = result_tuple[2] if len(result_tuple) > 2 else None
+        if score_str:
+            bracket[f"result_{c1}_{c2}"] = score_str
 
     # Guardar bracket.json
     with open("bracket.json", "w") as f:
