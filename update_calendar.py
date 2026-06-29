@@ -4,49 +4,21 @@ update_calendar.py
 Fetchea resultados del Mundial 2026 desde la ESPN API,
 actualiza bracket.json con los equipos clasificados y
 regenera mundial2026.ics.
-
-Corre automáticamente cada 6 horas via GitHub Actions.
 """
 
-import json
-import os
-import sys
-import subprocess
+import json, os, sys, subprocess
 from datetime import datetime, timedelta
+import urllib.request, urllib.error
 
-try:
-    import urllib.request
-    import urllib.error
-except ImportError:
-    pass
-
-# ─────────────────────────────────────────────
-# ESPN API – no requiere API key
-# ─────────────────────────────────────────────
 ESPN_STANDINGS = "https://site.api.espn.com/apis/v2/sports/soccer/FIFA.WORLD/standings?season=2026"
-ESPN_SCOREBOARD_TPL = "https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard?dates={date}"
-ESPN_GROUPS_DATES = "20260611-20260627"  # Fase de grupos completa
+ESPN_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/soccer/FIFA.WORLD/scoreboard"
 
-# Mapeo nombre ESPN → código de 3 letras
-ESPN_NAME_MAP = {
-    "Mexico": "MEX", "South Africa": "RSA", "South Korea": "KOR", "Korea Republic": "KOR",
-    "Czech Republic": "CZE", "Czechia": "CZE", "Canada": "CAN",
-    "Bosnia and Herzegovina": "BIH", "United States": "USA", "USA": "USA",
-    "Paraguay": "PAR", "Qatar": "QAT", "Switzerland": "SUI", "Brazil": "BRA",
-    "Morocco": "MAR", "Haiti": "HAI", "Scotland": "SCO", "Australia": "AUS",
-    "Turkey": "TUR", "Türkiye": "TUR", "Germany": "GER", "Curacao": "CUW",
-    "Netherlands": "NED", "Japan": "JPN", "Ivory Coast": "CIV", "Côte d'Ivoire": "CIV",
-    "Ecuador": "ECU", "Sweden": "SWE", "Tunisia": "TUN", "Spain": "ESP",
-    "Cape Verde": "CPV", "Belgium": "BEL", "Egypt": "EGY", "Iran": "IRN",
-    "New Zealand": "NZL", "Saudi Arabia": "KSA", "Uruguay": "URU", "France": "FRA",
-    "Senegal": "SEN", "Iraq": "IRQ", "Norway": "NOR", "Argentina": "ARG",
-    "Algeria": "ALG", "Austria": "AUT", "Jordan": "JOR", "Portugal": "POR",
-    "DR Congo": "COD", "Congo DR": "COD", "England": "ENG", "Croatia": "CRO",
-    "Ghana": "GHA", "Panama": "PAN", "Uzbekistan": "UZB", "Colombia": "COL",
+COMPLETED_STATUSES = {
+    "STATUS_FINAL", "STATUS_FULL_TIME",
+    "STATUS_FULL_PEN", "STATUS_FULL_ET",
 }
 
-# Estructura fija del bracket de Ronda de 32 (según FIFA)
-# Cada partido: (equipo1_descripcion, equipo2_descripcion)
+# Estructura del bracket (fixture fijo de FIFA 2026)
 BRACKET_STRUCTURE = {
     73: ("2nd_A", "2nd_B"),
     74: ("1st_E", "best3rd_ABCDF"),
@@ -66,244 +38,196 @@ BRACKET_STRUCTURE = {
     88: ("2nd_D", "2nd_G"),
 }
 
+FEEDS = {
+    89: (74, 77), 90: (73, 75), 91: (76, 78),  92: (79, 80),
+    93: (83, 84), 94: (81, 82), 95: (86, 88),  96: (85, 87),
+    97: (89, 90), 98: (93, 94), 99: (91, 92), 100: (95, 96),
+    101: (97, 98), 102: (99, 100),
+    104: (101, 102),
+}
 
+
+# ──────────────────────────────────────────────────────
 def fetch_json(url):
-    """Descarga JSON desde una URL."""
+    print(f"  → GET {url}")
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read().decode())
+        with urllib.request.urlopen(req, timeout=20) as r:
+            raw = r.read().decode()
+            data = json.loads(raw)
+            print(f"     OK ({len(raw)} bytes)")
+            return data
     except Exception as e:
-        print(f"  ⚠️  No se pudo obtener {url}: {e}")
+        print(f"     ERROR: {e}")
         return None
 
 
-def to_code(name):
-    """Convierte nombre de país ESPN a código de 3 letras."""
-    return ESPN_NAME_MAP.get(name, name[:3].upper())
-
-
-def fetch_group_standings():
+def get_standings():
     """
-    Retorna dict: { "A": [("ARG",pts,gd), ...sorted by position], ... }
+    Devuelve: {
+      "positions": {"1st_A":"MEX", "2nd_A":"RSA", ...},
+      "thirds":    [("RSA","A",pts,gd,gf), ...]  ordenado mejor→peor
+    }
     """
-    print("📡 Fetching standings de ESPN...")
     data = fetch_json(ESPN_STANDINGS)
     if not data:
-        return {}
+        return None
 
-    groups = {}
-    try:
-        # ESPN devuelve children[] (no standings.groups)
-        for group in data.get("children", []):
-            grp_name = group.get("name", "").replace("Group ", "").strip()
-            if not grp_name or len(grp_name) != 1:
-                continue
-            teams = []
-            for entry in group.get("standings", {}).get("entries", []):
-                # Preferir abbreviation directamente (más fiable que displayName→to_code)
-                team_abbr = entry.get("team", {}).get("abbreviation", "")
-                code = team_abbr if (team_abbr and len(team_abbr) <= 3) else to_code(entry.get("team", {}).get("displayName", ""))
-                stats = {s["name"]: s["value"] for s in entry.get("stats", [])}
-                pts = int(stats.get("points", 0))
-                gd = int(stats.get("pointDifferential", stats.get("goalDifference", 0)))
-                gf = int(stats.get("pointsFor", stats.get("goalsFor", stats.get("goalsScored", 0))))
-                teams.append((code, pts, gd, gf))
-            # Ordenar: más puntos → mejor diferencia → más goles
-            teams.sort(key=lambda x: (x[1], x[2], x[3]), reverse=True)
-            groups[grp_name] = teams
-            print(f"  Grupo {grp_name}: {[t[0] for t in teams]}")
-    except Exception as e:
-        print(f"  ⚠️  Error parseando standings: {e}")
+    positions = {}
+    thirds = []
 
-    return groups
+    children = data.get("children", [])
+    print(f"  Grupos encontrados: {len(children)}")
 
-
-def fetch_group_results():
-    """
-    Retorna dict con resultados de fase de grupos:
-    { ("MEX","RSA"): (1, 2), ... }  → (goles_equipo1, goles_equipo2)
-    Solo partidos ya finalizados.
-    """
-    print("📡 Fetching resultados de fase de grupos...")
-    results = {}
-    url = ESPN_SCOREBOARD_TPL.format(date=ESPN_GROUPS_DATES)
-    data = fetch_json(url)
-    if not data:
-        return results
-    COMPLETED = ("STATUS_FINAL", "STATUS_FULL_TIME", "STATUS_FULL_PEN", "STATUS_FULL_ET")
-    for event in data.get("events", []):
-        try:
-            comp = event["competitions"][0]
-            status = comp["status"]["type"]["name"]
-            if status not in COMPLETED:
-                continue
-            competitors = comp["competitors"]
-            h = competitors[0]
-            a = competitors[1]
-            # Preferir abbreviation directamente
-            h_code = h["team"].get("abbreviation") or to_code(h["team"].get("displayName", ""))
-            a_code = a["team"].get("abbreviation") or to_code(a["team"].get("displayName", ""))
-            h_score = int(float(h.get("score", 0) or 0))
-            a_score = int(float(a.get("score", 0) or 0))
-            key = tuple(sorted([h_code, a_code]))
-            # Guardamos en orden: primer equipo del key → su score
-            if key[0] == h_code:
-                results[key] = (h_score, a_score)
-            else:
-                results[key] = (a_score, h_score)
-            print(f"  {h_code} {h_score}-{a_score} {a_code}")
-        except Exception:
+    for group in children:
+        raw_name = group.get("name", "")
+        letter = raw_name.replace("Group ", "").strip()
+        if not letter or len(letter) != 1:
+            print(f"  ⚠ Grupo ignorado: '{raw_name}'")
             continue
-    return results
+
+        entries = group.get("standings", {}).get("entries", [])
+        teams = []
+        for e in entries:
+            code = e["team"].get("abbreviation") or e["team"].get("shortDisplayName", "???")
+            stats = {s["name"]: s["value"] for s in e.get("stats", [])}
+            pts = int(stats.get("points", 0))
+            gd  = int(stats.get("pointDifferential", 0))
+            gf  = int(stats.get("pointsFor", stats.get("goalsFor", 0)))
+            gp  = int(stats.get("gamesPlayed", 0))
+            teams.append((code, pts, gd, gf, gp))
+
+        # Ordenar por puntos → DG → GF
+        teams.sort(key=lambda x: (-x[1], -x[2], -x[3]))
+
+        if len(teams) >= 1:
+            positions[f"1st_{letter}"] = teams[0][0]
+        if len(teams) >= 2:
+            positions[f"2nd_{letter}"] = teams[1][0]
+        if len(teams) >= 3:
+            thirds.append((teams[2][0], letter, teams[2][1], teams[2][2], teams[2][3]))
+
+        print(f"  Grupo {letter}: {[t[0] for t in teams]}")
+
+    # Ordenar terceros: pts → gd → gf
+    thirds.sort(key=lambda x: (-x[2], -x[3], -x[4]))
+    return {"positions": positions, "thirds": thirds}
 
 
-def fetch_knockout_results():
+def get_best3rd(groups_str, thirds):
+    """Mejor tercer puesto de los grupos indicados."""
+    allowed = set(groups_str)
+    for t in thirds:
+        if t[1] in allowed:
+            return t[0]
+    return None
+
+
+def resolve_bracket(positions, thirds):
+    bracket = {}
+    for match_num, (slot1, slot2) in BRACKET_STRUCTURE.items():
+        t1 = positions.get(slot1)
+        if t1 is None and "best3rd_" in slot1:
+            t1 = get_best3rd(slot1.replace("best3rd_", ""), thirds)
+        t2 = positions.get(slot2)
+        if t2 is None and "best3rd_" in slot2:
+            t2 = get_best3rd(slot2.replace("best3rd_", ""), thirds)
+        if t1: bracket[f"p{match_num}_t1"] = t1
+        if t2: bracket[f"p{match_num}_t2"] = t2
+    return bracket
+
+
+def fetch_scoreboard_day(date_str):
+    """Fetches scoreboard for a single YYYYMMDD date."""
+    return fetch_json(f"{ESPN_SCOREBOARD}?dates={date_str}")
+
+
+def get_completed_results(date_strs):
     """
-    Recorre fechas de la fase eliminatoria y retorna
-    dict: { match_num: ("ganador_code", "perdedor_code") }
-    Solo partidos ya jugados y con resultado.
+    Returns {frozenset(code1,code2): (score_str, winner)} for completed matches.
+    date_strs: list of "YYYYMMDD" strings
     """
-    print("📡 Fetching resultados eliminatorios...")
     results = {}
-
-    # Fechas de cada ronda
-    rounds = [
-        # Ronda de 32
-        ("20260628", "20260703"),
-        # Octavos
-        ("20260704", "20260707"),
-        # Cuartos
-        ("20260709", "20260711"),
-        # Semis + Final
-        ("20260714", "20260719"),
-    ]
-
-    COMPLETED = ("STATUS_FINAL", "STATUS_FULL_TIME", "STATUS_FULL_PEN", "STATUS_FULL_ET")
-
-    for start, end in rounds:
-        url = ESPN_SCOREBOARD_TPL.format(date=f"{start}-{end}")
-        data = fetch_json(url)
+    for ds in date_strs:
+        data = fetch_scoreboard_day(ds)
         if not data:
             continue
         for event in data.get("events", []):
             try:
                 comp = event["competitions"][0]
                 status = comp["status"]["type"]["name"]
-                if status not in COMPLETED:
+                if status not in COMPLETED_STATUSES:
                     continue
-                competitors = comp["competitors"]
-                home = competitors[0]
-                away = competitors[1]
-                h_code = home["team"].get("abbreviation") or to_code(home["team"].get("displayName", ""))
-                a_code = away["team"].get("abbreviation") or to_code(away["team"].get("displayName", ""))
-                h_score = int(float(home.get("score", 0) or 0))
-                a_score = int(float(away.get("score", 0) or 0))
+                c = comp["competitors"]
+                h_code  = c[0]["team"].get("abbreviation", "???")
+                a_code  = c[1]["team"].get("abbreviation", "???")
+                h_score = int(float(c[0].get("score") or 0))
+                a_score = int(float(c[1].get("score") or 0))
+
+                # Determinar ganador
                 if h_score > a_score:
-                    winner, loser = h_code, a_code
+                    winner = h_code
                 elif a_score > h_score:
-                    winner, loser = a_code, h_code
+                    winner = a_code
                 else:
-                    # Penales – ESPN marca winner=true en el ganador
-                    winner, loser = None, None
-                    for c in competitors:
-                        if c.get("winner"):
-                            winner = c["team"].get("abbreviation") or to_code(c["team"].get("displayName", ""))
-                    if winner:
-                        loser = a_code if winner == h_code else h_code
-                    else:
-                        winner, loser = h_code, a_code
+                    winner = next(
+                        (x["team"].get("abbreviation") for x in c if x.get("winner")),
+                        h_code
+                    )
 
-                key = tuple(sorted([h_code, a_code]))
-                # Guardamos también el marcador para mostrarlo en el ICS y la web
-                score_str = f"{h_score}-{a_score}" if status != "STATUS_FULL_PEN" else f"{h_score}-{a_score} (pen)"
-                results[key] = (winner, loser, score_str)
-            except Exception:
-                continue
+                score_str = f"{h_score}-{a_score}"
+                if status == "STATUS_FULL_PEN":
+                    score_str += " (pen)"
 
+                key = frozenset([h_code, a_code])
+                results[key] = (score_str, winner)
+                print(f"  {h_code} {score_str} {a_code}  [{status}]")
+            except Exception as ex:
+                print(f"  ⚠ Error parsing event: {ex}")
     return results
 
 
-def resolve_bracket(groups, knockout_results):
-    """
-    Construye bracket.json combinando standings y resultados de partidos.
-    Retorna dict listo para bracket.json.
-    """
-    bracket = {}
+def dates_range(start_str, end_str):
+    """Generate list of YYYYMMDD strings between start and end (inclusive)."""
+    start = datetime.strptime(start_str, "%Y%m%d")
+    end   = datetime.strptime(end_str,   "%Y%m%d")
+    out   = []
+    cur   = start
+    while cur <= end:
+        out.append(cur.strftime("%Y%m%d"))
+        cur += timedelta(days=1)
+    return out
 
-    # Posiciones en grupos
-    positions = {}  # "1st_A" → "ARG", "2nd_A" → "MEX", etc.
-    third_place = []  # lista de (code, pts, gd, gf, grupo)
 
-    for grp, teams in groups.items():
-        if len(teams) >= 1:
-            positions[f"1st_{grp}"] = teams[0][0]
-        if len(teams) >= 2:
-            positions[f"2nd_{grp}"] = teams[1][0]
-        if len(teams) >= 3:
-            third_place.append((teams[2][0], teams[2][1], teams[2][2], teams[2][3], grp))
+def advance_knockout(bracket, results):
+    """Fill rounds 89→104 based on winners of previous rounds."""
+    # Build winner_of map from results
+    winner_of = {}   # match_num → winner_code
+    loser_of  = {}
 
-    # Mejor 8 terceros (ordenados)
-    third_place.sort(key=lambda x: (x[1], x[2], x[3]), reverse=True)
-    best8_thirds = [t[0] for t in third_place[:8]]
-    best8_groups = [t[4] for t in third_place[:8]]
-
-    def get_best3rd(groups_str):
-        """Retorna el mejor tercer puesto de los grupos especificados."""
-        allowed = list(groups_str)
-        for t in third_place:
-            if t[4] in allowed:
-                return t[0]
-        return "Por definir"
-
-    # Resolver Ronda de 32
-    for match_num, (slot1, slot2) in BRACKET_STRUCTURE.items():
-        t1 = positions.get(slot1) or get_best3rd(slot1.replace("best3rd_", ""))
-        t2 = positions.get(slot2) or get_best3rd(slot2.replace("best3rd_", ""))
-        if t1: bracket[f"p{match_num}_t1"] = t1
-        if t2: bracket[f"p{match_num}_t2"] = t2
-
-    # Resolver rondas siguientes usando knockout_results
-    # Para cada partido desde 89 en adelante, buscamos al ganador
-    # de los partidos que lo alimentan
-    winner_of = {}  # match_num → winner_code
-    for (key, result_tuple) in knockout_results.items():
-        winner = result_tuple[0]
-        # Buscar qué partido corresponde a estos equipos
-        for n in range(73, 105):
-            t1 = bracket.get(f"p{n}_t1", "")
-            t2 = bracket.get(f"p{n}_t2", "")
-            if set([t1, t2]) == set(key):
-                winner_of[n] = winner
-                break
-
-    # Octavos (89-96) dependen de ganadores de R32 (73-88)
-    FEEDS = {
-        89: (74, 77), 90: (73, 75), 91: (76, 78), 92: (79, 80),
-        93: (83, 84), 94: (81, 82), 95: (86, 88), 96: (85, 87),
-        97: (89, 90), 98: (93, 94), 99: (91, 92), 100: (95, 96),
-        101: (97, 98), 102: (99, 100),
-        103: None, 104: (101, 102),
-    }
-    for match_num, feeds in FEEDS.items():
-        if feeds is None:
+    for match_num in range(73, 105):
+        t1 = bracket.get(f"p{match_num}_t1")
+        t2 = bracket.get(f"p{match_num}_t2")
+        if not t1 or not t2:
             continue
-        f1, f2 = feeds
+        key = frozenset([t1, t2])
+        if key in results:
+            score_str, winner = results[key]
+            loser = t2 if winner == t1 else t1
+            winner_of[match_num] = winner
+            loser_of[match_num]  = loser
+            # Store score in bracket
+            c1, c2 = sorted([t1, t2])
+            bracket[f"result_{c1}_{c2}"] = score_str
+
+    # Advance winners
+    for match_num, (f1, f2) in FEEDS.items():
         if f1 in winner_of:
             bracket[f"p{match_num}_t1"] = winner_of[f1]
         if f2 in winner_of:
             bracket[f"p{match_num}_t2"] = winner_of[f2]
 
-    # Tercer puesto: perdedores de semis
-    loser_of = {}
-    for (key, result_tuple) in knockout_results.items():
-        loser = result_tuple[1]
-        for n in range(73, 105):
-            t1 = bracket.get(f"p{n}_t1", "")
-            t2 = bracket.get(f"p{n}_t2", "")
-            if set([t1, t2]) == set(key):
-                loser_of[n] = loser
-                break
+    # 3rd place: losers of semis
     if 101 in loser_of: bracket["p103_t1"] = loser_of[101]
     if 102 in loser_of: bracket["p103_t2"] = loser_of[102]
 
@@ -311,59 +235,85 @@ def resolve_bracket(groups, knockout_results):
 
 
 def main():
-    print(f"\n{'='*50}")
-    print(f"🔄 Actualizando calendario Mundial 2026")
-    print(f"   {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
-    print(f"{'='*50}\n")
+    print(f"\n{'='*55}")
+    print(f"🔄  Actualizando calendario Mundial 2026")
+    print(f"    {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
+    print(f"{'='*55}\n")
 
-    # Cargar bracket existente
+    # ── Cargar bracket existente ──
     existing = {}
     if os.path.exists("bracket.json"):
         with open("bracket.json") as f:
             existing = json.load(f)
+        print(f"bracket.json existente: {len(existing)} entradas\n")
 
-    # Fetch data
-    groups = fetch_group_standings()
-    knockout_results = fetch_knockout_results()
-    group_results = fetch_group_results()
+    # ── 1. Standings → posiciones de grupo ──
+    print("── 1. Standings de grupos ──")
+    sdata = get_standings()
 
-    if not groups and not knockout_results and not group_results:
-        print("\n⚠️  No se obtuvo data nueva. Regenerando ICS con bracket existente.")
-        bracket = existing
-    else:
-        bracket = resolve_bracket(groups, knockout_results)
-        # Preservar datos existentes si el API no devolvió algo nuevo
+    if sdata and sdata["positions"]:
+        print(f"\n  → {len(sdata['positions'])} posiciones obtenidas")
+        bracket = resolve_bracket(sdata["positions"], sdata["thirds"])
+        print(f"  → {len(bracket)} slots del bracket resueltos")
+        # Preservar entradas viejas que no se pisaron
         for k, v in existing.items():
             if k not in bracket:
                 bracket[k] = v
+    else:
+        print("  ⚠ Sin datos de standings — usando bracket existente")
+        bracket = existing.copy()
 
-    # Guardar resultados de fase de grupos en bracket.json
-    # Formato: "result_MEX_RSA": "1-2"
-    for (c1, c2), (s1, s2) in group_results.items():
-        bracket[f"result_{c1}_{c2}"] = f"{s1}-{s2}"
+    # ── 2. Resultados de partidos (hoy y días anteriores) ──
+    today     = datetime.utcnow()
+    yesterday = today - timedelta(days=1)
+    # Rango de la fase eliminatoria completa
+    ko_dates  = dates_range("20260628", today.strftime("%Y%m%d"))
+    # Solo buscar en días que ya pasaron o son hoy
+    ko_dates  = [d for d in ko_dates if d <= today.strftime("%Y%m%d")]
 
-    # Guardar resultados de fase eliminatoria (marcador)
-    # Formato: "result_ARG_FRA": "2-0"
-    for (c1, c2), result_tuple in knockout_results.items():
-        score_str = result_tuple[2] if len(result_tuple) > 2 else None
-        if score_str:
-            bracket[f"result_{c1}_{c2}"] = score_str
+    if ko_dates:
+        print(f"\n── 2. Resultados eliminatorios ({ko_dates[0]} → {ko_dates[-1]}) ──")
+        results = get_completed_results(ko_dates)
+        print(f"  → {len(results)} partidos terminados")
+        bracket = advance_knockout(bracket, results)
 
-    # Guardar bracket.json
+        # También guardar resultados de fase de grupos si están en el scoreboard de hoy
+        # (ESPN a veces incluye resultados recientes en el scoreboard del día)
+        today_str = today.strftime("%Y%m%d")
+        group_data = fetch_scoreboard_day(today_str)
+        if group_data:
+            for event in group_data.get("events", []):
+                try:
+                    comp  = event["competitions"][0]
+                    if comp["status"]["type"]["name"] not in COMPLETED_STATUSES:
+                        continue
+                    c      = comp["competitors"]
+                    h_code = c[0]["team"].get("abbreviation", "???")
+                    a_code = c[1]["team"].get("abbreviation", "???")
+                    h_s    = int(float(c[0].get("score") or 0))
+                    a_s    = int(float(c[1].get("score") or 0))
+                    c1, c2 = sorted([h_code, a_code])
+                    key    = f"result_{c1}_{c2}"
+                    if key not in bracket:
+                        bracket[key] = f"{h_s}-{a_s}"
+                except Exception:
+                    pass
+
+    # ── 3. Guardar bracket.json ──
     with open("bracket.json", "w") as f:
         json.dump(bracket, f, indent=2, ensure_ascii=False)
-    print(f"\n✅ bracket.json actualizado ({len(bracket)} entradas)")
+    print(f"\n✅  bracket.json guardado — {len(bracket)} entradas")
 
-    # Regenerar ICS
-    print("📅 Regenerando mundial2026.ics...")
-    result = subprocess.run([sys.executable, "build_ics.py"], capture_output=True, text=True)
-    if result.returncode == 0:
-        print(result.stdout.strip())
+    # ── 4. Regenerar ICS ──
+    print("\n── 4. Regenerando mundial2026.ics ──")
+    r = subprocess.run([sys.executable, "build_ics.py"], capture_output=True, text=True)
+    if r.returncode == 0:
+        print(r.stdout.strip() or "  OK")
     else:
-        print(f"❌ Error en build_ics.py: {result.stderr}")
+        print(f"❌  Error en build_ics.py:\n{r.stderr}")
         sys.exit(1)
 
-    print("\n✅ Todo listo!")
+    print("\n✅  ¡Listo!\n")
 
 
 if __name__ == "__main__":
