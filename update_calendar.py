@@ -25,23 +25,27 @@ GROUP_TEAMS = {
     "L": ["ENG","CRO","GHA","PAN"],
 }
 
-# --- Bracket fixture fijo FIFA 2026 ---
+# --- Bracket fixture REAL FIFA 2026 (verificado contra BBC Sport) ---
+# p73 RSA-CAN, p74 GER-PAR, p75 NED-MAR, p76 BRA-JPN
+# p77 FRA-SWE, p78 CIV-NOR, p79 MEX-ECU, p80 ENG-COD
+# p81 USA-BIH, p82 BEL-SEN, p83 POR-CRO, p84 ESP-AUT
+# p85 SUI-ALG, p86 ARG-CPV, p87 COL-GHA, p88 AUS-EGY
 BRACKET_STRUCTURE = {
     73: ("2nd_A", "2nd_B"),
-    74: ("1st_E", "best3rd_ABCDF"),
+    74: ("1st_E", "3rd_D"),
     75: ("1st_F", "2nd_C"),
     76: ("1st_C", "2nd_F"),
-    77: ("1st_I", "best3rd_CDFGH"),
+    77: ("1st_I", "3rd_F"),
     78: ("2nd_E", "2nd_I"),
-    79: ("1st_A", "best3rd_CEFHI"),
-    80: ("1st_L", "best3rd_EHIJK"),
-    81: ("1st_D", "best3rd_BEFIJ"),
-    82: ("1st_G", "best3rd_AEHIJ"),
+    79: ("1st_A", "3rd_E"),
+    80: ("1st_L", "3rd_K"),
+    81: ("1st_D", "3rd_B"),
+    82: ("1st_G", "3rd_I"),
     83: ("2nd_K", "2nd_L"),
     84: ("1st_H", "2nd_J"),
-    85: ("1st_B", "best3rd_EFGIJ"),
+    85: ("1st_B", "3rd_J"),
     86: ("1st_J", "2nd_H"),
-    87: ("1st_K", "best3rd_DEIJL"),
+    87: ("1st_K", "3rd_L"),
     88: ("2nd_D", "2nd_G"),
 }
 
@@ -167,6 +171,7 @@ def reconstruct_standings(bracket):
 
         positions["1st_%s" % letter] = ranked[0]
         positions["2nd_%s" % letter] = ranked[1]
+        positions["3rd_%s" % letter] = ranked[2]
         thirds.append((ranked[2], letter,
                        stats[ranked[2]]["pts"],
                        stats[ranked[2]]["gd"],
@@ -177,23 +182,11 @@ def reconstruct_standings(bracket):
     return positions, thirds
 
 
-def get_best3rd(groups_str, thirds):
-    allowed = set(groups_str)
-    for t in thirds:
-        if t[1] in allowed:
-            return t[0]
-    return None
-
-
 def resolve_r32(positions, thirds):
     bracket = {}
     for num, (s1, s2) in BRACKET_STRUCTURE.items():
         t1 = positions.get(s1)
-        if t1 is None and "best3rd_" in s1:
-            t1 = get_best3rd(s1.replace("best3rd_", ""), thirds)
         t2 = positions.get(s2)
-        if t2 is None and "best3rd_" in s2:
-            t2 = get_best3rd(s2.replace("best3rd_", ""), thirds)
         if t1: bracket["p%d_t1" % num] = t1
         if t2: bracket["p%d_t2" % num] = t2
     return bracket
@@ -277,7 +270,7 @@ def main():
     print("  Mejores terceros: %s" % [t[0] for t in thirds[:8]])
 
     if positions:
-        r32 = resolve_r32(positions, thirds)
+        r32 = resolve_r32(positions, thirds)  # thirds arg ignored, kept for compat
         print("\n--- C. Bracket R32: %d slots resueltos ---" % len(r32))
         for k, v in sorted(r32.items()):
             print("  %s: %s" % (k, v))
