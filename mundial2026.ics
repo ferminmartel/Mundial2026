@@ -592,128 +592,130 @@ BEGIN:VEVENT
 UID:k073@mundial2026.ferminmartel
 DTSTART:20260628T190000Z
 DTEND:20260628T210000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P73
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 16:00\n🕐 Hora local (Los Ángeles): 12:00\n\n🏟 SoFi Stadium\n📍 Los Ángeles, EE.UU.\n🏆 Ronda de 32 - Partido 73\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:RSA vs CAN | Ronda de 32 P73
+DESCRIPTION:🇿🇦 Sudáfrica  vs  🇨🇦 Canadá\n\n🕐 Hora Argentina (ART): 16:00\n🕐 Hora local (Los Ángeles): 12:00\n\n🏟 SoFi Stadium\n📍 Los Ángeles, EE.UU.\n🏆 Ronda de 32 - Partido 73\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:SoFi Stadium\, Los Ángeles, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k074@mundial2026.ferminmartel
 DTSTART:20260629T203000Z
 DTEND:20260629T223000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P74
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 17:30\n🕐 Hora local (Foxborough): 16:30\n\n🏟 Gillette Stadium\n📍 Foxborough, EE.UU.\n🏆 Ronda de 32 - Partido 74\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:GER vs SWE | Ronda de 32 P74
+DESCRIPTION:🇩🇪 Alemania  vs  🇸🇪 Suecia\n\n🕐 Hora Argentina (ART): 17:30\n🕐 Hora local (Foxborough): 16:30\n\n🏟 Gillette Stadium\n📍 Foxborough, EE.UU.\n🏆 Ronda de 32 - Partido 74\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Gillette Stadium\, Foxborough, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k075@mundial2026.ferminmartel
 DTSTART:20260630T010000Z
 DTEND:20260630T030000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P75
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 22:00\n🕐 Hora local (Monterrey): 20:00\n\n🏟 Estadio BBVA\n📍 Monterrey, México\n🏆 Ronda de 32 - Partido 75\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:NED vs MAR | Ronda de 32 P75
+DESCRIPTION:🇳🇱 Países Bajos  vs  🇲🇦 Marruecos\n\n🕐 Hora Argentina (ART): 22:00\n🕐 Hora local (Monterrey): 20:00\n\n🏟 Estadio BBVA\n📍 Monterrey, México\n🏆 Ronda de 32 - Partido 75\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Estadio BBVA\, Monterrey, México
 END:VEVENT
 BEGIN:VEVENT
 UID:k076@mundial2026.ferminmartel
 DTSTART:20260629T170000Z
 DTEND:20260629T190000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P76
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 14:00\n🕐 Hora local (Houston): 12:00\n\n🏟 NRG Stadium\n📍 Houston, EE.UU.\n🏆 Ronda de 32 - Partido 76\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:BRA vs JPN | Ronda de 32 P76
+DESCRIPTION:🇧🇷 Brasil  vs  🇯🇵 Japón\n\n🕐 Hora Argentina (ART): 14:00\n🕐 Hora local (Houston): 12:00\n\n🏟 NRG Stadium\n📍 Houston, EE.UU.\n🏆 Ronda de 32 - Partido 76\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:NRG Stadium\, Houston, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k077@mundial2026.ferminmartel
 DTSTART:20260630T210000Z
 DTEND:20260630T230000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P77
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 18:00\n🕐 Hora local (East Rutherford): 17:00\n\n🏟 MetLife Stadium\n📍 East Rutherford, EE.UU.\n🏆 Ronda de 32 - Partido 77\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:FRA vs SWE | Ronda de 32 P77
+DESCRIPTION:🇫🇷 Francia  vs  🇸🇪 Suecia\n\n🕐 Hora Argentina (ART): 18:00\n🕐 Hora local (East Rutherford): 17:00\n\n🏟 MetLife Stadium\n📍 East Rutherford, EE.UU.\n🏆 Ronda de 32 - Partido 77\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:MetLife Stadium\, East Rutherford, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k078@mundial2026.ferminmartel
 DTSTART:20260630T170000Z
 DTEND:20260630T190000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P78
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 14:00\n🕐 Hora local (Arlington (Dallas)): 12:00\n\n🏟 AT&T Stadium\n📍 Arlington (Dallas), EE.UU.\n🏆 Ronda de 32 - Partido 78\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:CIV vs NOR | Ronda de 32 P78
+DESCRIPTION:🇨🇮 Costa de Marfil  vs  🇳🇴 Noruega\n\n🕐 Hora Argentina (ART): 14:00\n🕐 Hora local (Arlington (Dallas)): 12:00\n\n🏟 AT&T Stadium\n📍 Arlington (Dallas), EE.UU.\n🏆 Ronda de 32 - Partido 78\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:AT&T Stadium\, Arlington (Dallas), EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k079@mundial2026.ferminmartel
 DTSTART:20260701T010000Z
 DTEND:20260701T030000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P79
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 22:00\n🕐 Hora local (Ciudad de México): 20:00\n\n🏟 Estadio Azteca\n📍 Ciudad de México, México\n🏆 Ronda de 32 - Partido 79\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:MEX vs SWE | Ronda de 32 P79
+DESCRIPTION:🇲🇽 México  vs  🇸🇪 Suecia\n\n🕐 Hora Argentina (ART): 22:00\n🕐 Hora local (Ciudad de México): 20:00\n\n🏟 Estadio Azteca\n📍 Ciudad de México, México\n🏆 Ronda de 32 - Partido 79\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Estadio Azteca\, Ciudad de México, México
 END:VEVENT
 BEGIN:VEVENT
 UID:k080@mundial2026.ferminmartel
 DTSTART:20260701T160000Z
 DTEND:20260701T180000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P80
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 13:00\n🕐 Hora local (Atlanta): 12:00\n\n🏟 Mercedes-Benz Stadium\n📍 Atlanta, EE.UU.\n🏆 Ronda de 32 - Partido 80\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:ENG vs COD | Ronda de 32 P80
+DESCRIPTION:🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra  vs  🇨🇩 RD Congo\n\n🕐 Hora Argentina (ART): 13:00\n🕐 Hora local (Atlanta): 12:00\n\n🏟 Mercedes-Benz Stadium\n📍 Atlanta, EE.UU.\n🏆 Ronda de 32 - Partido 80\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Mercedes-Benz Stadium\, Atlanta, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k081@mundial2026.ferminmartel
 DTSTART:20260702T000000Z
 DTEND:20260702T020000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P81
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 21:00\n🕐 Hora local (Santa Clara): 17:00\n\n🏟 Levi's Stadium\n📍 Santa Clara, EE.UU.\n🏆 Ronda de 32 - Partido 81\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:USA vs SWE | Ronda de 32 P81
+DESCRIPTION:🇺🇸 Estados Unidos  vs  🇸🇪 Suecia\n\n🕐 Hora Argentina (ART): 21:00\n🕐 Hora local (Santa Clara): 17:00\n\n🏟 Levi's Stadium\n📍 Santa Clara, EE.UU.\n🏆 Ronda de 32 - Partido 81\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Levi's Stadium\, Santa Clara, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k082@mundial2026.ferminmartel
 DTSTART:20260701T200000Z
 DTEND:20260701T220000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P82
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 17:00\n🕐 Hora local (Seattle): 13:00\n\n🏟 Lumen Field\n📍 Seattle, EE.UU.\n🏆 Ronda de 32 - Partido 82\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:BEL vs ECU | Ronda de 32 P82
+DESCRIPTION:🇧🇪 Bélgica  vs  🇪🇨 Ecuador\n\n🕐 Hora Argentina (ART): 17:00\n🕐 Hora local (Seattle): 13:00\n\n🏟 Lumen Field\n📍 Seattle, EE.UU.\n🏆 Ronda de 32 - Partido 82\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Lumen Field\, Seattle, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k083@mundial2026.ferminmartel
 DTSTART:20260702T230000Z
 DTEND:20260703T010000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P83
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 20:00\n🕐 Hora local (Toronto): 19:00\n\n🏟 BMO Field\n📍 Toronto, Canadá\n🏆 Ronda de 32 - Partido 83\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:POR vs CRO | Ronda de 32 P83
+DESCRIPTION:🇵🇹 Portugal  vs  🇭🇷 Croacia\n\n🕐 Hora Argentina (ART): 20:00\n🕐 Hora local (Toronto): 19:00\n\n🏟 BMO Field\n📍 Toronto, Canadá\n🏆 Ronda de 32 - Partido 83\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:BMO Field\, Toronto, Canadá
 END:VEVENT
 BEGIN:VEVENT
 UID:k084@mundial2026.ferminmartel
 DTSTART:20260702T190000Z
 DTEND:20260702T210000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P84
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 16:00\n🕐 Hora local (Los Ángeles): 12:00\n\n🏟 SoFi Stadium\n📍 Los Ángeles, EE.UU.\n🏆 Ronda de 32 - Partido 84\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:ESP vs AUT | Ronda de 32 P84
+DESCRIPTION:🇪🇸 España  vs  🇦🇹 Austria\n\n🕐 Hora Argentina (ART): 16:00\n🕐 Hora local (Los Ángeles): 12:00\n\n🏟 SoFi Stadium\n📍 Los Ángeles, EE.UU.\n🏆 Ronda de 32 - Partido 84\n\n📺 TyC Sports · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:SoFi Stadium\, Los Ángeles, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k085@mundial2026.ferminmartel
 DTSTART:20260703T030000Z
 DTEND:20260703T050000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P85
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 00:00\n🕐 Hora local (Vancouver): 20:00\n\n🏟 BC Place\n📍 Vancouver, Canadá\n🏆 Ronda de 32 - Partido 85\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:SUI vs SWE | Ronda de 32 P85
+DESCRIPTION:🇨🇭 Suiza  vs  🇸🇪 Suecia\n\n🕐 Hora Argentina (ART): 00:00\n🕐 Hora local (Vancouver): 20:00\n\n🏟 BC Place\n📍 Vancouver, Canadá\n🏆 Ronda de 32 - Partido 85\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:BC Place\, Vancouver, Canadá
 END:VEVENT
 BEGIN:VEVENT
 UID:k086@mundial2026.ferminmartel
 DTSTART:20260703T220000Z
 DTEND:20260704T000000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P86
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 19:00\n🕐 Hora local (Miami): 18:00\n\n🏟 Hard Rock Stadium\n📍 Miami, EE.UU.\n🏆 Ronda de 32 - Partido 86\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:ARG vs CPV | Ronda de 32 P86
+DESCRIPTION:🇦🇷 Argentina  vs  🇨🇻 Cabo Verde\n\n🕐 Hora Argentina (ART): 19:00\n🕐 Hora local (Miami): 18:00\n\n🏟 Hard Rock Stadium\n📍 Miami, EE.UU.\n🏆 Ronda de 32 - Partido 86\n\n📺 TyC Sports · TV Pública · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Hard Rock Stadium\, Miami, EE.UU.
+COLOR:#75AADB
+X-APPLE-CALENDAR-COLOR:#75AADB
 END:VEVENT
 BEGIN:VEVENT
 UID:k087@mundial2026.ferminmartel
 DTSTART:20260704T013000Z
 DTEND:20260704T033000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P87
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 22:30\n🕐 Hora local (Kansas City): 20:30\n\n🏟 Arrowhead Stadium\n📍 Kansas City, EE.UU.\n🏆 Ronda de 32 - Partido 87\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:COL vs ECU | Ronda de 32 P87
+DESCRIPTION:🇨🇴 Colombia  vs  🇪🇨 Ecuador\n\n🕐 Hora Argentina (ART): 22:30\n🕐 Hora local (Kansas City): 20:30\n\n🏟 Arrowhead Stadium\n📍 Kansas City, EE.UU.\n🏆 Ronda de 32 - Partido 87\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Arrowhead Stadium\, Kansas City, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
 UID:k088@mundial2026.ferminmartel
 DTSTART:20260703T180000Z
 DTEND:20260703T200000Z
-SUMMARY:Por definir vs Por definir | Ronda de 32 P88
-DESCRIPTION:Por definir  vs   Por definir\n\n🕐 Hora Argentina (ART): 15:00\n🕐 Hora local (Arlington (Dallas)): 13:00\n\n🏟 AT&T Stadium\n📍 Arlington (Dallas), EE.UU.\n🏆 Ronda de 32 - Partido 88\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:AUS vs EGY | Ronda de 32 P88
+DESCRIPTION:🇦🇺 Australia  vs  🇪🇬 Egipto\n\n🕐 Hora Argentina (ART): 15:00\n🕐 Hora local (Arlington (Dallas)): 13:00\n\n🏟 AT&T Stadium\n📍 Arlington (Dallas), EE.UU.\n🏆 Ronda de 32 - Partido 88\n\n📺 DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:AT&T Stadium\, Arlington (Dallas), EE.UU.
 END:VEVENT
 BEGIN:VEVENT
@@ -728,8 +730,8 @@ BEGIN:VEVENT
 UID:k090@mundial2026.ferminmartel
 DTSTART:20260704T170000Z
 DTEND:20260704T190000Z
-SUMMARY:Partido 90 - Equipo 1 vs Partido 90 - Equipo 2 | Octavos de Final P90
-DESCRIPTION:Partido 90 - Equipo 1  vs   Partido 90 - Equipo 2\n\n🕐 Hora Argentina (ART): 14:00\n🕐 Hora local (Houston): 12:00\n\n🏟 NRG Stadium\n📍 Houston, EE.UU.\n🏆 Octavos de Final - Partido 90\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:CAN vs Partido 90 - Equipo 2 | Octavos de Final P90
+DESCRIPTION:🇨🇦 Canadá  vs   Partido 90 - Equipo 2\n\n🕐 Hora Argentina (ART): 14:00\n🕐 Hora local (Houston): 12:00\n\n🏟 NRG Stadium\n📍 Houston, EE.UU.\n🏆 Octavos de Final - Partido 90\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:NRG Stadium\, Houston, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
