@@ -722,8 +722,8 @@ BEGIN:VEVENT
 UID:k089@mundial2026.ferminmartel
 DTSTART:20260704T210000Z
 DTEND:20260704T230000Z
-SUMMARY:Partido 89 - Equipo 1 vs Partido 89 - Equipo 2 | Octavos de Final P89
-DESCRIPTION:Partido 89 - Equipo 1  vs   Partido 89 - Equipo 2\n\n🕐 Hora Argentina (ART): 18:00\n🕐 Hora local (Filadelfia): 17:00\n\n🏟 Lincoln Financial Field\n📍 Filadelfia, EE.UU.\n🏆 Octavos de Final - Partido 89\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:Partido 89 - Equipo 1 vs FRA | Octavos de Final P89
+DESCRIPTION:Partido 89 - Equipo 1  vs  🇫🇷 Francia\n\n🕐 Hora Argentina (ART): 18:00\n🕐 Hora local (Filadelfia): 17:00\n\n🏟 Lincoln Financial Field\n📍 Filadelfia, EE.UU.\n🏆 Octavos de Final - Partido 89\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Lincoln Financial Field\, Filadelfia, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
