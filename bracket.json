@@ -110,5 +110,7 @@
   "result_CIV_NOR": "1-2",
   "p91_t2": "NOR",
   "result_FRA_SWE": "3-0",
-  "p89_t2": "FRA"
+  "p89_t2": "FRA",
+  "result_ECU_MEX": "0-2",
+  "p92_t1": "MEX"
 }

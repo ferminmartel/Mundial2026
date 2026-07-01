@@ -746,8 +746,8 @@ BEGIN:VEVENT
 UID:k092@mundial2026.ferminmartel
 DTSTART:20260706T000000Z
 DTEND:20260706T020000Z
-SUMMARY:Partido 92 - Equipo 1 vs Partido 92 - Equipo 2 | Octavos de Final P92
-DESCRIPTION:Partido 92 - Equipo 1  vs   Partido 92 - Equipo 2\n\n🕐 Hora Argentina (ART): 21:00\n🕐 Hora local (Ciudad de México): 19:00\n\n🏟 Estadio Azteca\n📍 Ciudad de México, México\n🏆 Octavos de Final - Partido 92\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:MEX vs Partido 92 - Equipo 2 | Octavos de Final P92
+DESCRIPTION:🇲🇽 México  vs   Partido 92 - Equipo 2\n\n🕐 Hora Argentina (ART): 21:00\n🕐 Hora local (Ciudad de México): 19:00\n\n🏟 Estadio Azteca\n📍 Ciudad de México, México\n🏆 Octavos de Final - Partido 92\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Estadio Azteca\, Ciudad de México, México
 END:VEVENT
 BEGIN:VEVENT
