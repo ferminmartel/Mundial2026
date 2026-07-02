@@ -114,5 +114,7 @@
   "result_ECU_MEX": "0-2",
   "p92_t1": "MEX",
   "result_COD_ENG": "1-2",
-  "p92_t2": "ENG"
+  "p92_t2": "ENG",
+  "result_BIH_USA": "0-2",
+  "p94_t1": "USA"
 }

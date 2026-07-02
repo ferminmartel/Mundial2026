@@ -762,8 +762,8 @@ BEGIN:VEVENT
 UID:k094@mundial2026.ferminmartel
 DTSTART:20260707T000000Z
 DTEND:20260707T020000Z
-SUMMARY:Partido 94 - Equipo 1 vs Partido 94 - Equipo 2 | Octavos de Final P94
-DESCRIPTION:Partido 94 - Equipo 1  vs   Partido 94 - Equipo 2\n\n🕐 Hora Argentina (ART): 21:00\n🕐 Hora local (Seattle): 17:00\n\n🏟 Lumen Field\n📍 Seattle, EE.UU.\n🏆 Octavos de Final - Partido 94\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
+SUMMARY:USA vs Partido 94 - Equipo 2 | Octavos de Final P94
+DESCRIPTION:🇺🇸 Estados Unidos  vs   Partido 94 - Equipo 2\n\n🕐 Hora Argentina (ART): 21:00\n🕐 Hora local (Seattle): 17:00\n\n🏟 Lumen Field\n📍 Seattle, EE.UU.\n🏆 Octavos de Final - Partido 94\n\n📺 TyC Sports · Telefe · DirecTV Sports\n\n─────────────────────\nCopa del Mundo FIFA 2026\nEE.UU. · México · Canadá | 11 jun – 19 jul 2026
 LOCATION:Lumen Field\, Seattle, EE.UU.
 END:VEVENT
 BEGIN:VEVENT
