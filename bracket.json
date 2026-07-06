@@ -128,5 +128,7 @@
   "result_BRA_NOR": "1-2",
   "result_ENG_MEX": "3-2",
   "p99_t1": "NOR",
-  "p99_t2": "ENG"
+  "p99_t2": "ENG",
+  "result_ESP_POR": "1-0",
+  "p98_t1": "ESP"
 }
