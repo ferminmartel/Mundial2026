@@ -124,5 +124,9 @@
   "p93_t2": "ESP",
   "p94_t1": "USA",
   "p96_t1": "SUI",
-  "p96_t2": "COL"
+  "p96_t2": "COL",
+  "result_BRA_NOR": "1-2",
+  "result_ENG_MEX": "3-2",
+  "p99_t1": "NOR",
+  "p99_t2": "ENG"
 }
